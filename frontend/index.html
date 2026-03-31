@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plain English</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/markdown/markdown.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vscode: {
+              bg:        '#1e1e1e',
+              sidebar:   '#252526',
+              titlebar:  '#323233',
+              menubar:   '#3c3c3c',
+              border:    '#454545',
+              hover:     '#505050',
+              selection: '#094771',
+              statusbar: '#007acc',
+              text:      '#cccccc',
+              muted:     '#969696',
+              dim:       '#888888',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-vscode-bg text-vscode-text flex flex-col h-screen overflow-hidden">
+
+  <!-- Title Bar -->
+  <div class="bg-vscode-titlebar h-[30px] flex items-center justify-center text-xs text-vscode-text select-none shrink-0">
+    Plain English — Code Translator
+  </div>
+
+  <!-- Menu Bar -->
+  <div class="bg-vscode-menubar h-[30px] flex items-stretch text-sm shrink-0 relative z-50">
+
+    <div class="menu-item relative flex items-center px-2.5 cursor-pointer hover:bg-vscode-hover" data-menu="file">
+      File
+      <div class="menu-dropdown hidden absolute top-full left-0 bg-vscode-sidebar border border-vscode-border min-w-[200px] shadow-xl">
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">New File <span class="text-vscode-dim text-xs ml-6">⌘N</span></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Open File… <span class="text-vscode-dim text-xs ml-6">⌘O</span></div>
+        <div class="h-px bg-vscode-border my-1"></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Save <span class="text-vscode-dim text-xs ml-6">⌘S</span></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Save As… <span class="text-vscode-dim text-xs ml-6">⇧⌘S</span></div>
+        <div class="h-px bg-vscode-border my-1"></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Close Editor <span class="text-vscode-dim text-xs ml-6">⌘W</span></div>
+      </div>
+    </div>
+
+    <div class="menu-item relative flex items-center px-2.5 cursor-pointer hover:bg-vscode-hover" data-menu="edit">
+      Edit
+      <div class="menu-dropdown hidden absolute top-full left-0 bg-vscode-sidebar border border-vscode-border min-w-[200px] shadow-xl">
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Undo <span class="text-vscode-dim text-xs ml-6">⌘Z</span></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Redo <span class="text-vscode-dim text-xs ml-6">⇧⌘Z</span></div>
+        <div class="h-px bg-vscode-border my-1"></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Cut <span class="text-vscode-dim text-xs ml-6">⌘X</span></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Copy <span class="text-vscode-dim text-xs ml-6">⌘C</span></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Paste <span class="text-vscode-dim text-xs ml-6">⌘V</span></div>
+        <div class="h-px bg-vscode-border my-1"></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Find <span class="text-vscode-dim text-xs ml-6">⌘F</span></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Replace <span class="text-vscode-dim text-xs ml-6">⌥⌘F</span></div>
+      </div>
+    </div>
+
+    <div class="menu-item relative flex items-center px-2.5 cursor-pointer hover:bg-vscode-hover" data-menu="view">
+      View
+      <div class="menu-dropdown hidden absolute top-full left-0 bg-vscode-sidebar border border-vscode-border min-w-[200px] shadow-xl">
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Toggle Word Wrap <span class="text-vscode-dim text-xs ml-6">⌥Z</span></div>
+        <div class="h-px bg-vscode-border my-1"></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Zoom In <span class="text-vscode-dim text-xs ml-6">⌘+</span></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Zoom Out <span class="text-vscode-dim text-xs ml-6">⌘-</span></div>
+      </div>
+    </div>
+
+    <div class="menu-item relative flex items-center px-2.5 cursor-pointer hover:bg-vscode-hover" data-menu="translate">
+      Translate
+      <div class="menu-dropdown hidden absolute top-full left-0 bg-vscode-sidebar border border-vscode-border min-w-[200px] shadow-xl">
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Translate Now <span class="text-vscode-dim text-xs ml-6">⌘↵</span></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Auto-Translate on Change</div>
+        <div class="h-px bg-vscode-border my-1"></div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">Clear Output</div>
+      </div>
+    </div>
+
+    <div class="menu-item relative flex items-center px-2.5 cursor-pointer hover:bg-vscode-hover" data-menu="help">
+      Help
+      <div class="menu-dropdown hidden absolute top-full left-0 bg-vscode-sidebar border border-vscode-border min-w-[200px] shadow-xl">
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">About Plain English</div>
+        <div class="px-3 py-1.5 flex justify-between hover:bg-vscode-selection cursor-pointer">View on GitHub</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Editor Area -->
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- Left Pane: Python Code -->
+    <div class="flex flex-col flex-1 overflow-hidden">
+      <div class="bg-vscode-sidebar px-3 py-1 text-[11px] text-vscode-dim uppercase tracking-widest border-b border-vscode-bg shrink-0 flex items-center justify-between">
+        <span>Code</span>
+        <select id="lang-select" class="bg-vscode-sidebar text-vscode-dim text-[11px] uppercase tracking-widest border-0 outline-none cursor-pointer hover:text-vscode-text">
+          <option value="python">Python</option>
+          <option value="javascript">JavaScript</option>
+        </select>
+      </div>
+      <div class="editor-wrapper flex-1 overflow-hidden">
+        <textarea id="code-editor"></textarea>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="w-px bg-vscode-border shrink-0"></div>
+
+    <!-- Right Pane: Plain English -->
+    <div class="flex flex-col flex-1 overflow-hidden">
+      <div class="bg-vscode-sidebar px-3 py-1 text-[11px] text-vscode-dim uppercase tracking-widest border-b border-vscode-bg shrink-0">
+        Plain English
+      </div>
+      <div class="editor-wrapper flex-1 overflow-hidden">
+        <textarea id="output-editor"></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

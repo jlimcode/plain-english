@@ -1,0 +1,51 @@
+/* CodeMirror overrides — not expressible with Tailwind */
+
+.CodeMirror {
+  height: 100%;
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', 'Menlo', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.CodeMirror-scroll {
+  height: 100%;
+}
+
+/* One Dark theme — inlined to avoid CDN cross-origin issues on file:// */
+.cm-s-one-dark.CodeMirror {
+  background: #282c34;
+  color: #abb2bf;
+}
+.cm-s-one-dark .CodeMirror-gutters {
+  background: #282c34;
+  border-right: 1px solid #3e4451;
+}
+.cm-s-one-dark .CodeMirror-linenumber { color: #5c6370; }
+.cm-s-one-dark .CodeMirror-cursor { border-left: 1px solid #abb2bf; }
+.cm-s-one-dark .CodeMirror-selected { background: #3e4451; }
+.cm-s-one-dark .CodeMirror-line::selection,
+.cm-s-one-dark .CodeMirror-line > span::selection,
+.cm-s-one-dark .CodeMirror-line > span > span::selection { background: #3e4451; }
+
+.cm-s-one-dark .cm-keyword    { color: #c678dd; }
+.cm-s-one-dark .cm-atom       { color: #d19a66; }
+.cm-s-one-dark .cm-number     { color: #d19a66; }
+.cm-s-one-dark .cm-def        { color: #61afef; }
+.cm-s-one-dark .cm-variable   { color: #e06c75; }
+.cm-s-one-dark .cm-variable-2 { color: #abb2bf; }
+.cm-s-one-dark .cm-variable-3,
+.cm-s-one-dark .cm-type       { color: #e5c07b; }
+.cm-s-one-dark .cm-property   { color: #abb2bf; }
+.cm-s-one-dark .cm-operator   { color: #56b6c2; }
+.cm-s-one-dark .cm-comment    { color: #5c6370; font-style: italic; }
+.cm-s-one-dark .cm-string     { color: #98c379; }
+.cm-s-one-dark .cm-string-2   { color: #98c379; }
+.cm-s-one-dark .cm-meta       { color: #abb2bf; }
+.cm-s-one-dark .cm-qualifier  { color: #e5c07b; }
+.cm-s-one-dark .cm-builtin    { color: #e5c07b; }
+.cm-s-one-dark .cm-bracket    { color: #abb2bf; }
+.cm-s-one-dark .cm-tag        { color: #e06c75; }
+.cm-s-one-dark .cm-attribute  { color: #d19a66; }
+.cm-s-one-dark .cm-hr         { color: #5c6370; }
+.cm-s-one-dark .cm-link       { color: #61afef; }
+.cm-s-one-dark .cm-error      { color: #f44747; }
