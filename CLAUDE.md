@@ -4,74 +4,66 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This project aims to create a simple website that shows Python code translation into plain English in real-time using LLMs.
+This project creates a website that shows code translation into plain English in real-time using LLMs.
 
-**Current State:** The repository contains a proof-of-concept Python script (`translate.py`) that demonstrates the core translation functionality using LangChain with OpenAI's API. This script parses Python files and generates natural language explanations of functions.
+**Current State:** A working frontend mockup exists in `frontend/`. A proof-of-concept Python translation script (`translate.py`) also exists but is not yet connected to the frontend. The next step is building a Flask backend to wire them together.
 
-**Goal:** Build a web interface where users can view and interact with code translations in real-time.
+**Goal:** A web interface where users paste or type code, and see a plain English explanation generated in real-time via LLM.
 
-## Setup
+## Repository Structure
 
-Install dependencies:
+```
+frontend/
+  index.html      # Main UI — VS Code-style two-pane editor layout
+  main.js         # CodeMirror setup, language selector, download handlers
+  style.css       # CodeMirror overrides and inlined One Dark theme
+translate.py      # Proof-of-concept translation engine (LangChain + OpenAI)
+sample_script.py  # Example Python file used for demonstration
+requirements.txt  # Python dependencies
+```
+
+## Frontend
+
+The frontend is a static HTML/JS/CSS app in `frontend/`. Open `frontend/index.html` directly in a browser to run it (no build step).
+
+**Stack:**
+- **Tailwind CSS** (CDN) — layout and VS Code-style UI components
+- **CodeMirror 5** (CDN) — IDE-style code editors with syntax highlighting
+  - Theme: One Dark (inlined in `style.css` to avoid CDN cross-origin issues on `file://`)
+  - Modes loaded: `python`, `javascript`, `markdown`
+- **Vanilla JavaScript** — no framework
+
+**UI structure:**
+- VS Code-style title bar and menu bar (File, Edit, View, Translate, Help)
+- Two equal-width editor panes side by side:
+  - Left: code input with language selector (Python / JavaScript) and One Dark syntax highlighting
+  - Right: plain English output (markdown mode)
+- File menu includes "Download Code" (`.py` or `.js`) and "Download Plain English" (`.md`)
+
+**Key files:**
+- `frontend/index.html` — all markup and Tailwind config; Tailwind color palette uses a custom `vscode` namespace
+- `frontend/main.js` — CodeMirror initialization, resize handling, language selector, download logic, menu bar interactivity
+- `frontend/style.css` — CodeMirror height/font overrides + full One Dark token color rules
+
+## Backend (not yet built)
+
+**Planned stack**: Flask (Python)
+- Serve `frontend/index.html`
+- API endpoint to accept code + language, return plain English translation
+- Reuse translation logic from `translate.py`
+
+## Proof-of-Concept Script
+
 ```bash
 pip install -r requirements.txt
-```
-
-Set up environment:
-```bash
-# Create .env file with:
-OPENAI_API_KEY={your_openai_api_key}
-```
-
-## Running the Proof-of-Concept Script
-
-Execute the main translation script:
-```bash
+# Create .env with: OPENAI_API_KEY={your_key}
 python translate.py
 ```
 
-This will:
-1. Parse `sample_script.py` and extract all functions
-2. Send each function to OpenAI for plain English translation
-3. Display original code and translated descriptions side-by-side with colored output
-
-**Note:** This is a proof-of-concept. The actual goal is to build a web interface for real-time code translation.
-
-## Current Architecture (Proof-of-Concept)
-
-The proof-of-concept consists of two main files:
-
-**translate.py** - Core translation engine:
-- `load_script_file(file_path)`: Uses Python's `ast` module to parse Python files and extract function definitions as text segments
-- `translate_function(function_text)`: Uses LangChain's prompt template + LLM + output parser chain to convert function code into natural language descriptions
-- Main execution loop that processes all functions from the target file
-
-**sample_script.py** - Example Python file used for demonstration
-
-The translation pipeline follows this flow:
-1. AST parsing extracts function source code segments
-2. LangChain prompt templates format the code for the LLM
-3. OpenAI's ChatGPT generates plain English descriptions
-4. Results are displayed with ANSI color codes (green for original, blue for translation)
-
-## Target Architecture (Web Application)
-
-The web application will use a simple, fast stack:
-
-**Backend**: Flask (Python)
-- Lightweight Python web framework
-- API endpoint(s) to handle code translation requests
-- Reuse core translation logic from `translate.py`
-
-**Frontend**: HTML + JavaScript + Tailwind CSS
-- Basic HTML served by Flask
-- Vanilla JavaScript for interactivity
-- Tailwind CSS for styling (no build step needed with CDN)
-- Side-by-side display of code and translations
-- Real-time updates as translations are generated
+Parses `sample_script.py`, sends each function to OpenAI via LangChain, and prints side-by-side colored output.
 
 ## Dependencies
 
-- `langchain` and `langchain-openai`: LLM orchestration and OpenAI integration
-- `python-dotenv`: Environment variable management for API keys
-- Standard library `ast` module: Python code parsing and analysis
+- `langchain`, `langchain-openai`: LLM orchestration and OpenAI integration
+- `python-dotenv`: Environment variable management
+- Standard library `ast`: Python code parsing
