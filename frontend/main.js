@@ -72,6 +72,26 @@ document.getElementById('lang-select').addEventListener('change', e => {
   codeEditor.setOption('mode', e.target.value);
 });
 
+// ── Download buttons ──────────────────────────────────────────────────────────
+
+function downloadFile(filename, content) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type: 'text/plain' }));
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+document.getElementById('download-code').addEventListener('click', () => {
+  const lang = document.getElementById('lang-select').value;
+  const ext = lang === 'javascript' ? 'js' : 'py';
+  downloadFile(`code.${ext}`, codeEditor.getValue());
+});
+
+document.getElementById('download-output').addEventListener('click', () => {
+  downloadFile('output.md', outputEditor.getValue());
+});
+
 // ── Menu bar ──────────────────────────────────────────────────────────────────
 
 const menuItems = document.querySelectorAll('.menu-item');
